@@ -8,10 +8,14 @@ function Users() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+    const usersUrl = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+      : 'http://localhost:8000/api/users/';
 
     async function loadUsers() {
       try {
-        const response = await fetch(buildApiUrl('users'), {
+        const response = await fetch(usersUrl, {
           signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
         });

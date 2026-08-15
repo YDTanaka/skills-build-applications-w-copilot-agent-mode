@@ -8,10 +8,14 @@ function Leaderboard() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+    const leaderboardUrl = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+      : 'http://localhost:8000/api/leaderboard/';
 
     async function loadLeaderboard() {
       try {
-        const response = await fetch(buildApiUrl('leaderboard'), {
+        const response = await fetch(leaderboardUrl, {
           signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
         });

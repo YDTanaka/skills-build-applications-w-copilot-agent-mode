@@ -8,10 +8,14 @@ function Teams() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+    const teamsUrl = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+      : 'http://localhost:8000/api/teams/';
 
     async function loadTeams() {
       try {
-        const response = await fetch(buildApiUrl('teams'), {
+        const response = await fetch(teamsUrl, {
           signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
         });

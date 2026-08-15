@@ -8,10 +8,14 @@ function Activities() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+    const activitiesUrl = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+      : 'http://localhost:8000/api/activities/';
 
     async function loadActivities() {
       try {
-        const response = await fetch(buildApiUrl('activities'), {
+        const response = await fetch(activitiesUrl, {
           signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
         });

@@ -8,10 +8,14 @@ function Workouts() {
 
   useEffect(() => {
     const controller = new AbortController();
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+    const workoutsUrl = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+      : 'http://localhost:8000/api/workouts/';
 
     async function loadWorkouts() {
       try {
-        const response = await fetch(buildApiUrl('workouts'), {
+        const response = await fetch(workoutsUrl, {
           signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
         });
